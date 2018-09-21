@@ -21,7 +21,7 @@ namespace Mictlanix.DotNet.Rtsp {
 		{
 			if (tcpConnection == null)
 				throw new ArgumentNullException (nameof (tcpConnection));
-			
+
 			Contract.EndContractBlock ();
 
 			_currentEndPoint = (IPEndPoint)tcpConnection.Client.RemoteEndPoint;
@@ -36,6 +36,7 @@ namespace Mictlanix.DotNet.Rtsp {
 		public RtspTcpTransport (string aHost, int aPortNumber)
 		    : this (new TcpClient (aHost, aPortNumber))
 		{
+
 		}
 
 		#region IRtspTransport Membres

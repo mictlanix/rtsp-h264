@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Security.Cryptography;
+using System.Net.Sockets;
 
 namespace Mictlanix.DotNet.Rtsp {
 	public class RTSPClient {
@@ -41,6 +42,7 @@ namespace Mictlanix.DotNet.Rtsp {
 		public string Password { get; private set; }
 		public string Hostname { get; private set; }
 		public int Port { get; private set; }
+		public int Timeout { get; set; } = 5000;
 
 		// Mode, either RTP over UDP or RTP over TCP using the RTSP socket
 		public RTP_TRANSPORT RtpTransport { get; private set; }
@@ -95,16 +97,26 @@ namespace Mictlanix.DotNet.Rtsp {
 			rtsp_socket_status = RTSP_STATUS.Connecting;
 
 			try {
-				rtsp_socket = new RtspTcpTransport (Hostname, Port);
+				var connection = new TcpClient ();
+				var result = connection.BeginConnect (Hostname, Port, null, null);
+				var success = result.AsyncWaitHandle.WaitOne (TimeSpan.FromMilliseconds (Timeout));
+
+				if (!success) {
+					throw new Exception ("Failed to connect (timeout).");
+				}
+
+				connection.EndConnect (result);
+
+				rtsp_socket = new RtspTcpTransport (connection);
 			} catch {
 				rtsp_socket_status = RTSP_STATUS.ConnectFailed;
-				Console.WriteLine ("Error - did not connect");
+				Console.WriteLine ($"Error - did not connect (Hostname: {Hostname} Port: {Port})");
 				return;
 			}
 
-			if (rtsp_socket.Connected == false) {
+			if (!rtsp_socket.Connected) {
 				rtsp_socket_status = RTSP_STATUS.ConnectFailed;
-				Console.WriteLine ("Error - did not connect");
+				Console.WriteLine ($"Error - did not connect (Hostname: {Hostname} Port: {Port})");
 				return;
 			}
 

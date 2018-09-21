@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <None Remove="rtsp_capture_20180620_144330.264" />
+    <None Remove="frame_20180921_152021.jpg" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\rtsp-h264-client\RtspH264Client.csproj" />

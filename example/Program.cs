@@ -12,25 +12,25 @@ namespace RtspClientExample {
 			var shooter = new Program ();
 
 			// VStarcam C7824WIP (dev)
-			//shooter.Snapshot ("admin", "888888", "rtsp://192.168.100.16/tcp/av0_0");
+			shooter.Snapshot ("admin", "888888", "rtsp://192.168.100.16/tcp/av0_0");
 
-			// Siqura PD1103Z2-E
-			shooter.Snapshot ("admin", "root1234", "rtsp://10.1.254.125/VideoInput/1/h264/1");
+			//// Siqura PD1103Z2-E
+			//shooter.Snapshot ("admin", "root1234", "rtsp://10.1.254.125/VideoInput/1/h264/1");
 
-			// Siqura HSD626
-			shooter.Snapshot ("Admin", "1234", "rtsp://10.1.254.130/VideoInput/1/h264/1");
+			//// Siqura HSD626
+			//shooter.Snapshot ("Admin", "1234", "rtsp://10.1.254.130/VideoInput/1/h264/1");
 
-			// Siqura HSD820
-			shooter.Snapshot ("admin", "@root1234", "rtsp://10.1.254.128/VideoInput/1/h264/1");
+			//// Siqura HSD820
+			//shooter.Snapshot ("admin", "@root1234", "rtsp://10.1.254.128/VideoInput/1/h264/1");
 
-			// Samsung SNB-6004
-			shooter.Snapshot ("admin", "@root1234", "rtsp://10.1.254.126/profile2/media.smp");
+			//// Samsung SNB-6004
+			//shooter.Snapshot ("admin", "@root1234", "rtsp://10.1.254.126/profile2/media.smp");
 
-			// Samsung SNP-5321H
-			shooter.Snapshot ("admin", "@root123", "rtsp://10.1.254.127/onvif/profile2/media.smp");
+			//// Samsung SNP-5321H
+			//shooter.Snapshot ("admin", "@root123", "rtsp://10.1.254.127/onvif/profile2/media.smp");
 
 			// Flir HD-XT
-			shooter.Snapshot ("Admin", "1234", "rtsp://10.10.128.62/VideoInput/1/h264/1");
+			//shooter.Snapshot ("Admin", "1234", "rtsp://10.10.128.62/VideoInput/1/h264/1");
 		}
 
 		public void Snapshot (string username, string password, string url)
@@ -70,6 +70,7 @@ namespace RtspClientExample {
 			// Connect to RTSP Server
 			Console.WriteLine ("Connecting");
 
+			client.Timeout = 3000;
 			client.Connect (url, username, password);
 
 			// Wait for user to terminate programme
@@ -80,8 +81,10 @@ namespace RtspClientExample {
 				Thread.Sleep (100);
 			}
 
-			//File.WriteAllBytes ("video.h264", fs_v.ToArray ());
-			ExecConverter (fs_v, $"frame_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.jpg", 1280, 720);
+			if (fs_v != null) {
+				//File.WriteAllBytes ("video.h264", fs_v.ToArray ());
+				ExecConverter (fs_v, $"frame_{DateTime.Now.ToString ("yyyyMMdd_HHmmss")}.jpg", 1280, 720);
+			}
 
 			Console.WriteLine ("Finished");
 		}
@@ -92,7 +95,7 @@ namespace RtspClientExample {
 			System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo ();
 			startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
 			startInfo.FileName = @"/usr/local/bin/ffmpeg";
-			startInfo.Arguments = $"-i - -f image2 -t 1 -r 1 -s {width}x{height} -y {filename}";
+			startInfo.Arguments = $"-i - -f image2 -vframes 1 -s {width}x{height} -y {filename}";
 			//startInfo.Arguments = $"-i - -frames:v 1 -f image2 -t 1 -r 1 -y frame.jpg";
 			startInfo.RedirectStandardError = true;
 			startInfo.RedirectStandardInput = true;
