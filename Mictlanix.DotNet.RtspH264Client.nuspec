@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Mictlanix.DotNet.RtspH264Client</id>
+    <version>0.0.1-beta2</version>
+    <title>Mictlanix RTSP/H264 Client</title>
+    <authors>Eddy Zavaleta</authors>
+    <owners/>
+    <licenseUrl>https://github.com/mictlanix/rtsp-h264/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/mictlanix/rtsp-h264</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A lightweight RTSP/H264 Client library.</description>
+    <releaseNotes>First release.</releaseNotes>
+    <copyright>Copyright © 2018 Mictlanix SAS de CV</copyright>
+    <tags>ipcam rtsp h264</tags>
+    <dependencies>
+      <dependency id="NLog" version="4.5.10" />
+    </dependencies>
+  </metadata>
+  <files>
+	<file src="rtsp-h264-client/bin/Release/netstandard2.0/Mictlanix.DotNet.RtspH264Client.dll" target="lib/netstandard2.0" />
+  </files>
+</package>
