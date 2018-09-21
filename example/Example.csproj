@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="rtsp_capture_20180620_144330.264" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\rtsp-h264-client\RtspH264Client.csproj" />
+  </ItemGroup>
+</Project>
