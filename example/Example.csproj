@@ -3,11 +3,15 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <AssemblyName>Snapshot</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="rtsp_capture_20180620_144330.264" />
     <None Remove="frame_20180921_152021.jpg" />
+    <None Remove="Flir_HD-XT.jpg" />
+    <None Remove="Siqura_HSD626.h264" />
+    <None Remove="Siqura_HSD626.jpg" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\rtsp-h264-client\RtspH264Client.csproj" />

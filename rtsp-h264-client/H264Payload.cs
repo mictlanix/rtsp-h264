@@ -34,7 +34,7 @@ namespace Mictlanix.DotNet.Rtsp {
 		// Returns a list of NAL Units (with no 00 00 00 01 header and with no Size header)
 		private List<byte []> Process_H264_RTP_Frame (List<byte []> rtp_payloads)
 		{
-			Console.WriteLine ("RTP Data comprised of " + rtp_payloads.Count + " rtp packets");
+			//Console.WriteLine ("RTP Data comprised of " + rtp_payloads.Count + " rtp packets");
 
 			List<byte []> nal_units = new List<byte []> (); // Stores the NAL units for a Video Frame. May be more than one NAL unit in a video frame.
 
@@ -47,13 +47,13 @@ namespace Mictlanix.DotNet.Rtsp {
 				// If the Nal Header Type is in the range 1..23 this is a normal NAL (not fragmented)
 				// So write the NAL to the file
 				if (nal_header_type >= 1 && nal_header_type <= 23) {
-					Console.WriteLine ("Normal NAL");
+					//Console.WriteLine ("Normal NAL");
 					norm++;
 					nal_units.Add (rtp_payloads [payload_index]);
 				}
 				// There are 4 types of Aggregation Packet (split over RTP payloads)
 				else if (nal_header_type == 24) {
-					Console.WriteLine ("Agg STAP-A");
+					//Console.WriteLine ("Agg STAP-A");
 					stap_a++;
 
 					// RTP packet contains multiple NALs, each with a 16 bit header
@@ -83,7 +83,7 @@ namespace Mictlanix.DotNet.Rtsp {
 					Console.WriteLine ("Agg MTAP24 not supported");
 					mtap24++;
 				} else if (nal_header_type == 28) {
-					Console.WriteLine ("Frag FU-A");
+					//Console.WriteLine ("Frag FU-A");
 					fu_a++;
 
 					// Parse Fragmentation Unit Header
@@ -92,7 +92,7 @@ namespace Mictlanix.DotNet.Rtsp {
 					int fu_header_r = (rtp_payloads [payload_index] [1] >> 5) & 0x01;  // reserved. should be 0
 					int fu_header_type = (rtp_payloads [payload_index] [1] >> 0) & 0x1F; // Original NAL unit header
 
-					Console.WriteLine ("Frag FU-A s=" + fu_header_s + "e=" + fu_header_e);
+					//Console.WriteLine ("Frag FU-A s=" + fu_header_s + "e=" + fu_header_e);
 
 					// Check Start and End flags
 					if (fu_header_s == 1 && fu_header_e == 0) {
@@ -137,7 +137,7 @@ namespace Mictlanix.DotNet.Rtsp {
 			}
 
 			// Output some statistics
-			Console.WriteLine ("Norm=" + norm + " ST-A=" + stap_a + " ST-B=" + stap_b + " M16=" + mtap16 + " M24=" + mtap24 + " FU-A=" + fu_a + " FU-B=" + fu_b);
+			//Console.WriteLine ("Norm=" + norm + " ST-A=" + stap_a + " ST-B=" + stap_b + " M16=" + mtap16 + " M24=" + mtap24 + " FU-A=" + fu_a + " FU-B=" + fu_b);
 
 			// Output all the NALs that form one RTP Frame (one frame of video)
 			return nal_units;
