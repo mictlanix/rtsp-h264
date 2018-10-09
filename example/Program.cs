@@ -113,8 +113,8 @@ namespace RtspClientExample {
 			var startInfo = new ProcessStartInfo {
 				WindowStyle = ProcessWindowStyle.Hidden,
 				FileName = @"ffmpeg",
-				//Arguments = $"-i - -f image2 -vframes 1 -s {width}x{height} -y \"{filename}\"",
-				Arguments = $"-loglevel quiet -i - -f image2 -vframes 1 -s {width}x{height} -y \"{filename}\"",
+				Arguments = $"-f h264 -i - -f image2 -vframes 1 -s {width}x{height} -y \"{filename}\"",
+				//Arguments = $"-loglevel quiet -f h264 -i - -f image2 -vframes 1 -s {width}x{height} -y \"{filename}\"",
 				RedirectStandardError = true,
 				RedirectStandardInput = true,
 				RedirectStandardOutput = true,
@@ -127,11 +127,20 @@ namespace RtspClientExample {
 				process.Dispose ();
 			};
 
+			process.OutputDataReceived += (object sender, DataReceivedEventArgs e) => {
+				Console.WriteLine (e.Data);
+			};
+
+			process.ErrorDataReceived += (object sender, DataReceivedEventArgs e) => {
+				Console.WriteLine (e.Data);
+			};
+
 			process.StartInfo = startInfo;
 			process.Start ();
 
-			//Read (process.StandardOutput);
-			//Read (process.StandardError);
+			process.BeginErrorReadLine ();
+			process.BeginOutputReadLine ();
+
 			var standard_input = process.StandardInput.BaseStream;
 
 			try {
@@ -144,17 +153,6 @@ namespace RtspClientExample {
 			}
 
 			return await tcs.Task;
-		}
-
-		void Read (StreamReader reader)
-		{
-			new Thread (() => {
-				while (true) {
-					int current;
-					while ((current = reader.Read ()) >= 0)
-						Console.Write ((char)current);
-				}
-			}).Start ();
 		}
 	}
 }

@@ -5,6 +5,7 @@
 	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 	<RootNamespace>Mictlanix.DotNet.Rtsp</RootNamespace>
 	<AssemblyName>Mictlanix.DotNet.RtspH264Client</AssemblyName>
+	<ReleaseVersion>0.0.1</ReleaseVersion>
   </PropertyGroup>
 
   <ItemGroup>
