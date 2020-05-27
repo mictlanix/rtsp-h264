@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Mictlanix.DotNet.RtspH264Client</id>
-    <version>0.0.1-beta2</version>
+    <version>0.0.1-beta3</version>
     <title>Mictlanix RTSP/H264 Client</title>
     <authors>Eddy Zavaleta</authors>
     <owners/>
